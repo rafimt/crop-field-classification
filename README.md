@@ -149,3 +149,37 @@ src/
 
 For a full explanation of every stage, the parameters, limitations, and how to
 improve the project, see [`doc.md`](doc.md).
+
+---
+
+## Limitations
+
+- **Single region / single year.** Only Slovenia, 2021. The model may not
+  transfer to other countries, climates, or years.
+- **Uncontrolled Phase 1 vs Phase 2 comparison.** Phase 1 used 600 fields/class,
+  Phase 2 a 200/class subset (to limit download cost). The per-class F1 *pattern*
+  is trustworthy; the exact percentages are not a perfect A/B test.
+- **Only 4 well-separated crops.** Real crop maps have dozens of classes,
+  including very similar ones that are far harder.
+- **Optical only.** Sentinel-2 is blocked by clouds; some time windows have few
+  clear passes, so composites can be partly cloudy or empty (worse in winter).
+- **Moderate accuracy.** 56% is a solid demonstration, not a production model.
+- **Field context, not pure field.** The 64×64 window includes neighbors; the
+  parcel mask helps but does not fully isolate the field.
+
+## Future work
+
+- **Fair, larger comparison** — re-run Phase 2 at the full 600/class and add more
+  fields, so the two phases are directly comparable.
+- **Stronger temporal model** — replace the GRU with a temporal-attention model
+  (e.g. LTAE), which is state of the art for crop time-series and shows *which
+  dates* drive the prediction.
+- **Add Sentinel-1 radar** — sees through clouds, filling the gaps that break
+  optical composites.
+- **Better cloud handling** — explicit cloud masking + gap-filling per timestep.
+- **More regions and years** — train across areas so the model generalizes
+  instead of memorizing one region.
+- **Explainability** — Grad-CAM (where it looks) + attention weights (which dates
+  matter).
+- **Interactive demo** — click a field on a map → see its NDVI-over-time curve
+  and the predicted crop with probabilities.
