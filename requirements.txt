@@ -1,0 +1,18 @@
+# --- Deep learning (used in the training phases) ---
+torch
+torchvision
+pytorch-lightning
+torchmetrics
+
+# --- Data access & preparation (this stage) ---
+sentinelhub          # Sentinel Hub Process API client
+geopandas            # read EuroCrops polygons
+shapely
+rasterio             # rasterize parcel masks, geo transforms
+pyproj               # UTM zone math
+numpy
+pandas
+pyarrow              # save/read the labels.parquet file
+python-dotenv        # load SH credentials from .env
+pyyaml               # config files
+tqdm                 # progress bars

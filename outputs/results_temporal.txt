@@ -1,0 +1,27 @@
+Crop Type Classification - TEMPORAL (Phase 2) Test Results
+Date: 2026-08-27 22:41:11
+
+Classes: Maize, Soybean, Potato, Sunflower
+Timesteps per parcel: 6
+Channels per image: 8
+Train / Val / Test sizes: 562 / 114 / 124
+
+Test metrics:
+  test_acc: 0.5633
+  test_f1: 0.554
+
+=== Detailed evaluation ===
+
+Confusion matrix (rows = true crop, columns = predicted crop):
+true \ pred      Maize   Soybean    Potato Sunflower
+Maize               13         4         9         5
+Soybean              6        14         2         9
+Potato               1         0        30         3
+Sunflower            3         4         7        14
+
+Per-class scores:
+  class         precision   recall       f1
+  Maize             0.565    0.419    0.481
+  Soybean           0.636    0.452    0.528
+  Potato            0.625    0.882    0.732
+  Sunflower         0.452      0.5    0.475

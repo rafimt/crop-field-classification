@@ -1,0 +1,21 @@
+# -----------------------------------------------------------------------------
+# Training settings for the ResNet18 crop classifier (Phase 1).
+# -----------------------------------------------------------------------------
+
+# Where the data settings live (so we can find the tensors + splits).
+data_config: configs/data.yaml
+
+batch_size: 32
+num_workers: 0          # Windows: keep 0 (avoids multiprocessing issues). Raise later.
+max_epochs: 30
+learning_rate: 0.0003   # 3e-4, a safe starting value for Adam
+
+pretrained: true        # start ResNet18 from ImageNet weights (transfer learning)
+augment: true           # random flips on training patches (free extra data)
+
+# "16-mixed" uses the GPU efficiently (recommended on your RTX 4060).
+# If you ever train on CPU, change this to "32-true".
+precision: "16-mixed"
+
+# Where logs and the best checkpoint get saved.
+output_dir: outputs

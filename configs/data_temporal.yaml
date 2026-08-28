@@ -1,0 +1,40 @@
+# -----------------------------------------------------------------------------
+# Phase 2 (temporal) dataset configuration.
+# Same parcels and classes as Phase 1, but instead of ONE season-median image
+# we fetch SEVERAL composites across a full agricultural year. This lets the
+# model see WHEN each crop greens up and dies back (its phenology), which is the
+# information a single median image throws away.
+# -----------------------------------------------------------------------------
+
+# Reuse the labels already built in Phase 1.
+labels_clean: data/processed/labels.parquet
+
+# To control Sentinel Hub cost, only use this many parcels per class.
+# 200 x 4 classes x 6 periods = 4800 requests (manageable).
+subset_per_class: 200
+random_seed: 42
+
+classes: [Maize, Soybean, Potato, Sunflower]
+
+# Six ~bi-monthly windows covering the crop year (autumn sowing -> summer harvest).
+# Each window becomes ONE cloud-free composite -> one timestep.
+periods:
+  - ["2020-10-01", "2020-11-30"]
+  - ["2020-12-01", "2021-01-31"]
+  - ["2021-02-01", "2021-03-31"]
+  - ["2021-04-01", "2021-05-31"]
+  - ["2021-06-01", "2021-07-31"]
+  - ["2021-08-01", "2021-09-30"]
+
+# Same image settings as Phase 1.
+bands: [B02, B03, B04, B08, B11, B12]
+patch_size_px: 64
+resolution_m: 10
+max_cloud_coverage: 0.6      # a bit looser: shorter windows have fewer scenes
+add_ndvi: true
+add_parcel_mask: true
+
+paths:
+  patch_cache: data/raw/patches_temporal    # cached raw composites (per period)
+  tensors: data/processed/tensors_temporal   # final (T, C, H, W) tensors
+  splits: data/processed/splits_temporal.json

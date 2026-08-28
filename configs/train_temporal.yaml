@@ -1,0 +1,16 @@
+# Training settings for the Phase 2 temporal model (ResNet18 + GRU).
+
+data_config: configs/data_temporal.yaml
+
+seed: 42
+batch_size: 16          # sequences use more memory than single images
+num_workers: 0
+max_epochs: 40
+learning_rate: 0.0003
+
+pretrained: true
+augment: true
+hidden_size: 128        # size of the GRU hidden state
+
+precision: "16-mixed"   # uses the GPU efficiently; CPU auto-falls back to 32
+output_dir: outputs

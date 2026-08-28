@@ -1,0 +1,54 @@
+# -----------------------------------------------------------------------------
+# Dataset configuration for crop-type classification.
+# Prototype on a small region (Slovenia), switch `region`/`eurocrops_file`
+# to Denmark for the final run.
+# -----------------------------------------------------------------------------
+
+region: slovenia
+
+# Path to the EuroCrops vector file for this region.
+# Download SI_2021.zip from Zenodo (record 10118572) and unzip into
+# data/raw/eurocrops/. It is a SHAPEFILE set (.shp/.shx/.dbf/.prj together).
+# Verify the exact .shp filename after unzipping and update this path.
+eurocrops_file: data/SI_2021/SI_2021_EC21.shp
+
+# Column in the EuroCrops file holding the harmonized crop NAME.
+# EuroCrops uses the HCAT scheme: `EC_hcat_n` (name) / `EC_hcat_c` (code).
+# Open the file once and confirm the exact column name before running.
+crop_class_column: EC_trans_n
+
+# Map raw EuroCrops labels -> our target classes (matched case-insensitively,
+# substring match on the EC_hcat_n crop name). Anything not matched is dropped.
+# Phase 1 uses an Apr-Oct median composite, so we pick SUMMER crops that are
+# actively growing in that window (spring-sown, canopy present in summer).
+class_map:
+  maize:      Maize        # grain + silage maize merged
+  corn:       Maize
+  soy:        Soybean      # matches "soya" / "soybean"
+  potato:     Potato       # matches "potatoes"
+  sunflower:  Sunflower
+
+# Final class list (order defines the integer label indices).
+# IMPORTANT: these must EXACTLY match the values on the right of class_map above.
+classes: [Maize, Soybean, Potato, Sunflower]
+
+samples_per_class: 600      # cap per class (keeps SH usage + training light)
+random_seed: 42
+
+# --- Sentinel-2 patch settings ---
+season:
+  start: "2021-04-01"
+  end:   "2021-10-01"        # one growing season -> one median composite
+bands: [B02, B03, B04, B08, B11, B12]
+patch_size_px: 64            # 64 px @ 10 m = 640 m window around parcel centroid
+resolution_m: 10
+max_cloud_coverage: 0.4      # per-scene filter before least-cloud mosaicking
+add_ndvi: true               # append an NDVI channel
+add_parcel_mask: true        # append a 0/1 in-parcel mask channel
+
+# --- Output paths ---
+paths:
+  labels_clean: data/processed/labels.parquet
+  patch_cache:  data/raw/patches           # raw fetched arrays, cached per parcel
+  tensors:      data/processed/tensors      # final model-ready (C,H,W) tensors
+  splits:       data/processed/splits.json  # train/val/test parcel ids

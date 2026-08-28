@@ -1,0 +1,30 @@
+# credentials
+.env
+
+# data (downloaded / generated — never commit; too big for GitHub)
+data/
+
+# training outputs: ignore checkpoints + logs, but keep the results text files
+outputs/lightning_logs/
+outputs/resnet18/
+outputs/resnet18_temporal/
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+*.egg-info/
+
+# notebooks
+.ipynb_checkpoints/
+
+# logs / checkpoints
+lightning_logs/
+*.ckpt
+tb_logs/
+
+# os
+.DS_Store
+Thumbs.db

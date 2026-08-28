@@ -1,0 +1,32 @@
+Crop Type Classification - Test Results
+Date: 2026-08-27 15:56:11
+
+Classes: Maize, Soybean, Potato, Sunflower
+Train / Val / Test sizes: 1678 / 286 / 436
+Channels per image: 8
+
+Settings:
+  epochs:        30
+  batch size:    32
+  learning rate: 0.0003
+  pretrained:    True
+
+Test metrics:
+  test_acc: 0.4505
+  test_f1: 0.439
+
+=== Detailed evaluation ===
+
+Confusion matrix (rows = true crop, columns = predicted crop):
+true \ pred      Maize   Soybean    Potato Sunflower
+Maize               24        20        16        21
+Soybean             26        83         4        28
+Potato              15         3        59         6
+Sunflower           58        33        13        27
+
+Per-class scores:
+  class         precision   recall       f1
+  Maize             0.195    0.296    0.235
+  Soybean           0.597    0.589    0.593
+  Potato            0.641    0.711    0.674
+  Sunflower         0.329    0.206    0.254
