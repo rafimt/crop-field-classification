@@ -40,6 +40,21 @@ throws away.
 download cost), so the per-class F1 pattern is more trustworthy than the exact
 percentages. See [`doc.md`](doc.md) for limitations and next steps.
 
+### Visuals
+
+Confusion matrices — the temporal model has a much lighter off-diagonal
+(fewer Maize/Sunflower mix-ups):
+
+| Phase 1 (single image) | Phase 2 (temporal) |
+|:---:|:---:|
+| ![Phase 1 confusion](outputs/viz/confusion_matrix_single.png) | ![Phase 2 confusion](outputs/viz/confusion_matrix_temporal.png) |
+
+Example predictions on the test set (green = correct, red = wrong):
+
+![Test predictions](outputs/viz/predictions_grid_temporal.png)
+
+Regenerate with `python -m src.visualize --mode temporal` (or `--mode single`).
+
 ---
 
 ## Setup
